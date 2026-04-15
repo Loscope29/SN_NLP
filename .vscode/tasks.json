@@ -1,0 +1,221 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Amend commit to remove secret",
+			"type": "shell",
+			"command": "git add Bourse/.env && git commit --amend --no-edit",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Amend commit to remove secret",
+			"type": "shell",
+			"command": "git add Bourse/.env ; git commit --amend --no-edit",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Stage env file",
+			"type": "shell",
+			"command": "git add Bourse/.env",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Remove env file from git index",
+			"type": "shell",
+			"command": "git rm --cached Bourse/.env",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Check recent commits",
+			"type": "shell",
+			"command": "git log --oneline -3",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Check the commit with the secret",
+			"type": "shell",
+			"command": "git show 88960039bf7244f9e199540643a556cad45952f6",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Check all commits",
+			"type": "shell",
+			"command": "git log --oneline --all",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Start interactive rebase to remove secret commit",
+			"type": "shell",
+			"command": "git rebase -i c458931",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Check commits after rebase",
+			"type": "shell",
+			"command": "git log --oneline -10",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Reset to commit before the secret",
+			"type": "shell",
+			"command": "git reset --hard c458931",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Cherry-pick first commit after secret",
+			"type": "shell",
+			"command": "git cherry-pick 4148b78",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Cherry-pick second commit",
+			"type": "shell",
+			"command": "git cherry-pick 0efebf6",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Remove env file",
+			"type": "shell",
+			"command": "Remove-Item Bourse/.env",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Cherry-pick gitignore commit",
+			"type": "shell",
+			"command": "git cherry-pick 0efebf6",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Skip the conflicting commit",
+			"type": "shell",
+			"command": "git cherry-pick --skip",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Cherry-pick README update",
+			"type": "shell",
+			"command": "git cherry-pick 7419f29",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Cherry-pick final commit",
+			"type": "shell",
+			"command": "git cherry-pick bf72a70",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Check conflict status",
+			"type": "shell",
+			"command": "git status",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Add env example to resolve conflict",
+			"type": "shell",
+			"command": "git add Bourse/.env.example",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Continue cherry-pick",
+			"type": "shell",
+			"command": "git cherry-pick --continue",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Check final commit history",
+			"type": "shell",
+			"command": "git log --oneline -10",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Force push to remove secret from remote",
+			"type": "shell",
+			"command": "git push origin main --force-with-lease",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Commit gitignore",
+			"type": "shell",
+			"command": "git add Bourse/.gitignore ; git commit -m 'Add .gitignore to exclude environment variables'",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		},
+		{
+			"label": "Push final commit",
+			"type": "shell",
+			"command": "git push origin main",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": ""
+		}
+	]
+}
