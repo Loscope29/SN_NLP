@@ -1,136 +1,156 @@
-# NLP Projects Repository
+# SN NLP Repository
 
-This repository contains various NLP (Natural Language Processing) projects implemented in Python, including Retrieval-Augmented Generation (RAG), speech-to-text, and text-to-speech functionalities.
+Ce dépôt contient plusieurs projets Python autour du traitement du langage naturel (NLP), de la génération de texte assistée par récupération (RAG), de la conversion audio/texte et de la prédiction de séries temporelles financières.
 
-## Projects Overview
+## Aperçu des projets
 
-- **RAG (Retrieval-Augmented Generation)**: `rag.py` - A system that combines document retrieval with language model generation for answering questions based on PDF documents.
-- **Speech-to-Text**: `audio_speech.ipynb` - Notebook for transcribing audio files using Whisper.
-- **Text-to-Speech**: `speech_audio.ipynb` and `speech_audio_hf.py` - Notebooks and scripts for generating audio from text using Edge TTS and Hugging Face models.
-- **Other Notebooks**: Various machine learning models for predictions (diabetes, house prices) and data analysis.
+- **RAG (Retrieval-Augmented Generation)**
+  - `rag.py` : script permettant de charger un PDF, de créer une base de vecteurs et de répondre à des questions à partir du contenu du document.
+  - `Rag_pdf.ipynb` : notebook de démonstration supplémentaire.
+- **Speech-to-Text**
+  - `audio_speech.ipynb` : transcription audio via Whisper.
+- **Text-to-Speech**
+  - `speech_audio.ipynb` : génération audio à partir de texte avec Edge TTS.
+  - `speech_audio_hf.py` : synthèse vocale via un modèle Hugging Face.
+- **Prédictions et analyse**
+  - `Prediction_diabete.ipynb` : prédiction de diabète.
+  - `Prediction_house_ANN.ipynb` : prédiction de prix immobiliers.
+- **Projet Bourse**
+  - `Bourse/lstm_prediction.ipynb` : modèle LSTM pour prédire les cours de clôture boursiers.
+    - Le notebook utilise `yfinance` pour charger les données.
+    - Le choix de l’action est défini par la variable `company_name`.
+    - Le ticker est dérivé automatiquement de `company_name`.
 
-## Prerequisites
+## Prérequis
 
-- Python 3.8 or higher
+- Python 3.8 ou supérieur
 - Git
-- Virtual environment (recommended)
-- API keys for LangSmith (for tracking) and other services if needed
+- Environnement virtuel (recommandé)
+- Clés API pour les services utilisés si nécessaire
 
 ## Installation
 
-1. **Clone the repository**:
+1. **Cloner le dépôt** :
    ```bash
    git clone <repository-url>
    cd <repository-directory>
    ```
 
-2. **Set up the virtual environment**:
-   The repository includes a virtual environment in `SN_NLP/`. Activate it:
+2. **Activer l’environnement virtuel** :
+   Le dépôt inclut un environnement dans `SN_NLP/`. Activez-le :
    ```bash
-   # On Windows
+   # Sur Windows
    SN_NLP\Scripts\activate
    ```
 
-3. **Install dependencies**:
+3. **Installer les dépendances** :
    ```bash
    pip install -r requirements.txt
    ```
-   If `requirements.txt` doesn't exist, install manually:
+   Si `requirements.txt` n’existe pas, installez manuellement :
    ```bash
-   pip install langchain langchain-community langchain-huggingface langchain-ollama transformers torch scipy playsound edge-tts chromadb sentence-transformers dotenv langsmith
+   pip install pandas numpy matplotlib yfinance tensorflow scikit-learn statsmodels langchain transformers torch scipy playsound edge-tts chromadb sentence-transformers python-dotenv
    ```
 
-4. **Set up environment variables**:
-   Create a `.env` file in the root directory with your API keys:
-   ```
+4. **Configurer les variables d’environnement** :
+   Créez un fichier `.env` à la racine si nécessaire :
+   ```ini
    LANGCHAIN_API_KEY=your_langsmith_api_key
    LANGCHAIN_TRACING_V2=true
    LANGCHAIN_PROJECT=your_project_name
    ```
-   **Important**: Add `.env` to `.gitignore` to avoid committing secrets.
+   Ajoutez `.env` à `.gitignore` pour éviter de versionner des secrets.
 
-## Usage
+## Utilisation
 
-### RAG System (`rag.py`)
+### Choix d’une action dans `Bourse/lstm_prediction.ipynb`
 
-This script loads a PDF, creates a vector store, and answers questions based on the document content.
+Dans le notebook, changez simplement la variable :
+```python
+company_name = "General Electric"
+```
+La valeur de `ticker` sera mise à jour automatiquement grâce à :
+```python
+ticker = TICKERS.get(company_name, "AMZN").replace(" ", "_")
+```
 
-1. Place your PDF in the `archive/` directory (e.g., `DS interview quESTIONS.pdf`).
-2. Run the script:
+### Exécuter le notebook Bourse
+
+1. Ouvrez le notebook :
+   ```bash
+   jupyter notebook Bourse/lstm_prediction.ipynb
+   ```
+2. Exécutez les cellules dans l’ordre.
+3. Vérifiez la métrique `Price RMSE` et le graphique `Actual vs Predicted Stock Price`.
+
+### Utiliser le script RAG
+
+1. Placez votre PDF dans `archive/`.
+2. Lancez :
    ```bash
    python rag.py
    ```
-3. The script will ask for a question and provide an answer based on the PDF content.
+3. Posez une question lorsque le script le demande.
 
-### Speech-to-Text (`audio_speech.ipynb`)
+### Utiliser les notebooks audio
 
-1. Open the notebook in Jupyter:
+#### `audio_speech.ipynb`
+1. Lancez Jupyter :
    ```bash
    jupyter notebook audio_speech.ipynb
    ```
-2. Run the cells to load Whisper model and transcribe audio.
-3. Place your audio file in the appropriate path and update the file path in the notebook.
+2. Exécutez les cellules pour transcrire un fichier audio.
 
-### Text-to-Speech (`speech_audio.ipynb`)
-
-1. Open the notebook:
+#### `speech_audio.ipynb`
+1. Ouvrez le notebook :
    ```bash
    jupyter notebook speech_audio.ipynb
    ```
-2. Run cells to generate audio from text using Edge TTS.
-3. The audio will be saved as `reponse_assistant.mp3` and played automatically.
+2. Exécutez les cellules pour générer de l’audio à partir de texte.
 
-### Text-to-Speech with Hugging Face (`speech_audio_hf.py`)
-
-1. Run the script:
+#### `speech_audio_hf.py`
+1. Lancez le script :
    ```bash
    python speech_audio_hf.py
    ```
-2. Enter the text to convert to speech.
-3. The audio will be generated using VITS model, saved as `output_audio.wav`, and played.
+2. Saisissez le texte à convertir en parole.
 
-### Other Notebooks
-
-- `Prediction_diabete.ipynb`: ANN model for diabetes prediction.
-- `Prediction_house_ANN.ipynb`: ANN model for house price prediction.
-- `Rag_pdf.ipynb`: Additional RAG implementation.
-
-Open these in Jupyter and run cells as needed.
-
-## Project Structure
+## Structure du projet
 
 ```
-├── archive/                    # PDF documents and data files
-├── chroma_db/                  # Vector database storage
-├── SN_NLP/                     # Virtual environment
-├── audio_speech.ipynb          # Speech-to-text notebook
-├── speech_audio.ipynb          # Text-to-speech notebook
-├── rag.py                      # RAG script
-├── speech_audio_hf.py          # Hugging Face TTS script
-├── Rag_pdf.ipynb               # Additional RAG notebook
-├── Prediction_diabete.ipynb    # Diabetes prediction
-├── Prediction_house_ANN.ipynb  # House price prediction
-├── .env                        # Environment variables (not committed)
-├── .gitignore                  # Git ignore file
-└── README.md                   # This file
+├── Bourse/                     # Projet de prédiction boursière
+│   └── lstm_prediction.ipynb
+├── archive/                    # Documents PDF et fichiers de données
+├── chroma_db/                  # Base de données de vecteurs
+├── SN_NLP/                     # Environnement virtuel
+├── audio_speech.ipynb          # Notebook speech-to-text
+├── speech_audio.ipynb          # Notebook text-to-speech
+├── rag.py                      # Script RAG
+├── speech_audio_hf.py          # Script TTS Hugging Face
+├── Rag_pdf.ipynb               # Notebook RAG supplémentaire
+├── Prediction_diabete.ipynb    # Prédiction de diabète
+├── Prediction_house_ANN.ipynb  # Prédiction immobilière
+├── requirements.txt            # Dépendances Python
+├── .env                        # Variables d’environnement (non suivi)
+├── .gitignore                  # Fichiers ignorés par Git
+└── README.md                   # Documentation du projet
 ```
 
-## Contributing
+## Suggestions d’amélioration
 
-1. Fork the repository.
-2. Create a feature branch.
-3. Make your changes.
-4. Test thoroughly.
-5. Submit a pull request.
+- Ajouter un `requirements.txt` propre avec toutes les dépendances du projet.
+- Centraliser l’activation de l’environnement et la configuration `.env`.
+- Harmoniser le pipeline `Bourse/lstm_prediction.ipynb` pour inversion complète des transformations.
+- Ajouter un script ou un notebook pour tester automatiquement plusieurs tickers.
 
-## License
+## Licence
 
-This project is for educational purposes. Please check individual licenses for third-party libraries used.
+Ce projet est à but éducatif. Vérifiez les licences des bibliothèques tierces utilisées.
 
-## Troubleshooting
+## Aide
 
-- **Git Push Issues**: If you encounter push protection errors due to secrets in `.env`, follow the steps in the terminal error message or remove secrets from Git history.
-- **Model Loading**: Ensure you have sufficient RAM/VRAM for large models like Whisper or VITS.
-- **API Keys**: Verify your `.env` file is correctly configured and `.env` is in `.gitignore`.
+- Si vous rencontrez des erreurs d’installation, vérifiez l’environnement virtuel et les versions de Python.
+- Si `yfinance` n’ouvre pas de données, assurez-vous que la connexion internet est active.
+- Pour les erreurs de modèle TensorFlow, vérifiez que `tensorflow` est compatible avec votre version Python.
 
-For any issues, check the code comments or open an issue in the repository.
+Pour toute question, consultez le code ou ajoutez une issue dans le dépôt.
