@@ -32,6 +32,7 @@ def get_chatbot_response(company, predictions, user_question):
 
     system_prompt = f"""Tu es un assistant financier expert.
 
+
 Voici les données de prédiction pour {company} :
 - Prix prédit dans {len(predictions)//21} mois : {last_price:.2f} $
 - Variation estimée : {variation:.2f}% ({trend})
@@ -52,7 +53,7 @@ Rappelle toujours que ce sont des prédictions, pas des certitudes."""
 
 # Chargement des prédictions sauvegardées
 script_dir = os.path.dirname(__file__)
-predictions_path = os.path.join(script_dir, "models", "AMD_predictions.npy")
+predictions_path = os.path.join(script_dir, "models", "predicted_prices.npy")
 
 try:
     predictions = np.load(predictions_path)
@@ -63,7 +64,8 @@ except FileNotFoundError:
     predictions = np.array([])  # Placeholder vide
 
 if __name__ == "__main__":
-    company = "AMD"
-    user_question = "Quelle est la tendance générale pour AMD dans les prochains mois ?"
+    company = "Amazon"
+    user_question = "Quelle est la tendance générale pour Amazon dans les prochains mois ? \
+    Donne des actions a faire pour un investisseur qui veut investir dans Amazon ?"
     response = get_chatbot_response(company, predictions, user_question)
     print("Chatbot response:", response)
