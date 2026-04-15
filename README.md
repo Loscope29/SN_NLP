@@ -19,8 +19,14 @@ Ce dépôt contient plusieurs projets Python autour du traitement du langage nat
   - `Bourse/lstm_prediction.ipynb` : modèle LSTM pour prédire les cours de clôture boursiers.
     - Le notebook utilise `yfinance` pour charger les données.
     - Le choix de l’action est défini par la variable `company_name`.
-    - Le ticker est dérivé automatiquement de `company_name`.
-
+    - Le ticker est dérivé automatiquement de `company_name`.  - `Bourse/prediction_lstm.ipynb` : modèle LSTM pour prédire la direction des rendements boursiers.
+    - Prédit si le prix va augmenter ou diminuer (directional accuracy).
+    - Génère des fichiers `.npy` avec les prédictions.
+    - Calcule des métriques de performance : directional accuracy (~50.89%), Sharpe ratio (~0.38).
+  - `Bourse/chatbot.py` : chatbot IA pour analyser les prédictions boursières.
+    - Charge les prédictions depuis les fichiers `.npy` générés.
+    - Utilise l'API Gemini de Google pour générer des analyses investissements.
+    - Intégré avec LangChain pour traçage et suivi des coûts via LangSmith.
 ## Prérequis
 
 - Python 3.8 ou supérieur
@@ -55,9 +61,13 @@ Ce dépôt contient plusieurs projets Python autour du traitement du langage nat
 4. **Configurer les variables d’environnement** :
    Créez un fichier `.env` à la racine si nécessaire :
    ```ini
+   # LangChain et LangSmith (optionnel mais recommandé pour traçage)
    LANGCHAIN_API_KEY=your_langsmith_api_key
    LANGCHAIN_TRACING_V2=true
    LANGCHAIN_PROJECT=your_project_name
+   
+   # Google Generative AI (requis pour chatbot.py)
+   GEMINI_API_KEY=your_gemini_api_key
    ```
    Ajoutez `.env` à `.gitignore` pour éviter de versionner des secrets.
 
@@ -82,7 +92,32 @@ ticker = TICKERS.get(company_name, "AMZN").replace(" ", "_")
    ```
 2. Exécutez les cellules dans l’ordre.
 3. Vérifiez la métrique `Price RMSE` et le graphique `Actual vs Predicted Stock Price`.
+### Utiliser `prediction_lstm.ipynb` pour les prédictions de rendements
 
+1. Ouvrez le notebook :
+   ```bash
+   jupyter notebook Bourse/prediction_lstm.ipynb
+   ```
+2. Ce notebook génère des fichiers `.npy` contenant les prédictions.
+3. Les métriques calculées :
+   - **Directional Accuracy** (~50.89%) : pourcentage de prédictions correctes sur la direction (hausse/baisse).
+   - **Sharpe Ratio** (~0.38) : mesure de performance risque-ajustée (supérieur à 0 est bon).
+4. Les fichiers de prédictions sont sauvegardés dans `Bourse/` (ex: `AMD_predictions.npy`).
+
+### Utiliser le chatbot IA `Bourse/chatbot.py`
+
+1. D'abord, générez les prédictions via `prediction_lstm.ipynb`.
+2. Assurez-vous que votre clé API Gemini est configurée dans `.env` :
+   ```ini
+   GEMINI_API_KEY=your_gemini_api_key
+   ```
+3. Lancez le chatbot :
+   ```bash
+   python Bourse/chatbot.py
+   ```
+4. Fournissez le nom de l'action (ex: "Amazon", "AMD", "Google") ainsi que lo chemin vers le fichier de prédictions.
+5. Le chatbot génère une analyse d'investissement basée sur les prédictions LSTM.
+6. Les coûts API sont traçés via LangSmith (si `LANGCHAIN_API_KEY` est configurée).
 ### Utiliser le script RAG
 
 1. Placez votre PDF dans `archive/`.
@@ -119,7 +154,9 @@ ticker = TICKERS.get(company_name, "AMZN").replace(" ", "_")
 
 ```
 ├── Bourse/                     # Projet de prédiction boursière
-│   └── lstm_prediction.ipynb
+│   ├── lstm_prediction.ipynb    # Prédiction des prix de clôture
+│   ├── prediction_lstm.ipynb    # Prédiction de rendements et directional accuracy
+│   └── chatbot.py               # Chatbot IA pour analyser les prédictions
 ├── archive/                    # Documents PDF et fichiers de données
 ├── chroma_db/                  # Base de données de vecteurs
 ├── SN_NLP/                     # Environnement virtuel
