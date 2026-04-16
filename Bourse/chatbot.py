@@ -7,16 +7,24 @@ from langsmith import traceable
 load_dotenv()
 
 # Set environment variables for API keys
-os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGSMITH_API_KEY")
+langsmith_api_key = os.getenv("LANGSMITH_API_KEY")
+if langsmith_api_key is not None:
+    os.environ["LANGSMITH_API_KEY"] = langsmith_api_key
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ['LANGSMITH_PROJECT'] = 'Bourse Chatbot'
 
 @traceable
 def get_chatbot_response(company, predictions, user_question):
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if gemini_key is None:
+        raise EnvironmentError(
+            "La clé GEMINI_API_KEY n'est pas définie. Vérifiez votre fichier .env."
+        )
+
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         temperature=0.7,
-        google_api_key=os.getenv("GEMINI_API_KEY")
+        google_api_key=gemini_key
     )
 
     if len(predictions) == 0:
