@@ -39,7 +39,7 @@ def create_vector_store(chunks, model_name="sentence-transformers/all-MiniLM-L6-
 def create_retriever(vector_store):
     return vector_store.as_retriever(search_kwargs={"k": 5})
 
-
+@traceable("RAG-LLM-Setup")
 def llm_setup():
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
