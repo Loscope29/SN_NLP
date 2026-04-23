@@ -12,7 +12,7 @@ os.environ["LANGCHAIN_TRACING_V2"]="true"
 
 
 # Chargement du modèle Whisper
-model = whisper.load_model("base", device="cuda" if torch.cuda.is_available() else "cpu")
+model = whisper.load_model("base", device="cpu")
 
 @traceable(run_type="chain", name="AudioToText-Whisper")
 def audio_to_text(audio_path):
