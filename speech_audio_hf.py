@@ -19,7 +19,7 @@ model = VitsModel.from_pretrained("facebook/mms-tts-fra")
 tokenizer = AutoTokenizer.from_pretrained("facebook/mms-tts-fra")
 
 
-@traceable("TextToSpeech-VITS")
+@traceable(run_type="chain", name="TextToSpeech-VITS")
 def text_to_speech(text):
     # Génération de l'audio
     inputs = tokenizer(text, return_tensors="pt", voice_preset="v2/fr_speaker_1")
