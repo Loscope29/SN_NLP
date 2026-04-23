@@ -44,7 +44,7 @@ def llm_setup():
     llm = ChatGoogleGenerativeAI(
         model="gemini-1.5-flash",
         temperature=0,
-        google_api_key=None # Il la cherchera par défaut dans st.secrets ou os.environ
+        google_api_key=os.getenv("GEMINI_API_KEY")
     )
 
     system_prompt = (
