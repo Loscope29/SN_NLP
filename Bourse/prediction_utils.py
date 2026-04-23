@@ -1,3 +1,5 @@
+from turtle import st
+
 import torch
 import numpy as np
 import yfinance as yf
@@ -17,7 +19,7 @@ TICKERS = {
 
 ROOT_DIR = os.path.dirname(__file__)
 
-
+@st.cache_data
 def load_recent_data(ticker, period="2y"):
     data = yf.download(ticker, period=period)
     data.reset_index(inplace=True)
@@ -27,6 +29,7 @@ def load_recent_data(ticker, period="2y"):
         close = data["Close"]
     return close.values.flatten()
 
+@st.cache_resource
 def predict_with_hf(company, months=6):
     ticker = TICKERS[company]
     price = np.asarray(load_recent_data(ticker), dtype=np.float32)
@@ -47,6 +50,7 @@ def predict_with_hf(company, months=6):
     median_forecast = forecast[0].median(dim=0).values.numpy()
     return median_forecast
 
+@st.cache_resource
 def predict_with_lstm(company, days=126):
     ticker = TICKERS[company]
     close_prices = load_recent_data(ticker, "10y")

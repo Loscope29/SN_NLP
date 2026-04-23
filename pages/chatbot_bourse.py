@@ -1,6 +1,9 @@
+
+
 import streamlit as st
 from Bourse import chatbot
 from Bourse import prediction_utils
+
 
 st.title("Chatbot Financier pour la Bourse")
 st.write("Choisissez une entreprise et un modèle de prédiction, puis posez votre question.")

@@ -1,3 +1,4 @@
+import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 import os
 from dotenv import load_dotenv
@@ -13,6 +14,7 @@ if langsmith_api_key is not None:
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ['LANGSMITH_PROJECT'] = 'Bourse Chatbot'
 
+@st.cache_resource
 @traceable
 def get_chatbot_response(company, predictions, user_question):
     gemini_key = os.getenv("GEMINI_API_KEY")
