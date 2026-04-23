@@ -1,1 +1,1 @@
-ffmp
+ffmpeg

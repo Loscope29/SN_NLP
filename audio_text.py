@@ -1,3 +1,4 @@
+import torch
 import whisper
 import os
 from langsmith import traceable
@@ -11,9 +12,9 @@ os.environ["LANGCHAIN_TRACING_V2"]="true"
 
 
 # Chargement du modèle Whisper
-model = whisper.load_model("base")
+model = whisper.load_model("base", device="cuda" if torch.cuda.is_available() else "cpu")
 
-@traceable("AudioToText-Whisper")
+@traceable(run_type="chain", name="AudioToText-Whisper")
 def audio_to_text(audio_path):
     # Transcription de l'audio
     result = model.transcribe(audio_path)
