@@ -6,7 +6,6 @@ import os
 import torch
 import numpy as np
 from scipy.io.wavfile import write
-from playsound import playsound
 
 
 ## Langsmith Tracking
