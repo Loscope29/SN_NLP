@@ -4,7 +4,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_ollama import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_classic.chains import create_retrieval_chain
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
@@ -15,6 +15,7 @@ load_dotenv()  # Charge les variables d'environnement depuis le fichier .env
 ## Langsmith Tracking
 os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY")  # Clé pour Google Gemini
 
 
 def load_pdf(file_path):
@@ -40,7 +41,12 @@ def create_retriever(vector_store):
 
 
 def llm_setup():
-    llm = ChatOllama(model="llama3.2", temperature=0)
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-1.5-flash",
+        temperature=0,
+        google_api_key=None # Il la cherchera par défaut dans st.secrets ou os.environ
+    )
+
     system_prompt = (
         "Tu es un assistant expert. Utilise les fragments de contexte suivants "
         "pour répondre à la question. Si tu ne connais pas la réponse, dis-le.\n\n"
@@ -51,6 +57,7 @@ def llm_setup():
         ("system", system_prompt),
         ("user", "{input}"),
     ])
+    
     return llm, prompt
 
 
@@ -71,15 +78,7 @@ def main(file_path, question):
   
     return result
 
-if __name__ == "__main__":
-    file_path = (
-        "C:\\Users\\DELL\\Desktop\\Master ISJ Data Science\\Master 2"
-        "\\NLP\\SN NLP\\archive\\DS interview quESTIONS.pdf"
-    )
-    question = "What is the main topic of the document?"
-    result = main(file_path, question)
-    print("Question:", question)
-    print("Answer:", result["answer"])
+
   
 
     
