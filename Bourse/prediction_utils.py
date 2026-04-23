@@ -1,5 +1,4 @@
-from turtle import st
-
+import streamlit as st
 import torch
 import numpy as np
 import yfinance as yf
